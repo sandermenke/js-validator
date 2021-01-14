@@ -25,16 +25,17 @@ const personObjF = {
 const objectIsArray = obj => Array.isArray(obj)
 
 const validate = (schema, obj) => {
-    for (const name in schema) {
-        if (typeof obj[name] === 'object') {
-            if (schema[name] === 'array' && !objectIsArray(obj[name])) return false
-            if (schema[name] === 'object' && objectIsArray(obj[name])) return false
+    for (const key in schema) {
+        if (typeof obj[key] === 'object') {
+            if (schema[key] === 'array' && !objectIsArray(obj[key])) return false
+            if (schema[key] === 'object' && objectIsArray(obj[key])) return false
         } else {
-            if (typeof obj[name] != schema[name]) return false
+            if (typeof obj[key] != schema[key]) return false
         }
     }
 
     return true
 }
 
-console.log('Is object valid: ' + !!validate(personSchema, personObjF))
+console.log('Is valid object valid: ' + !!validate(personSchema, personObj))
+console.log('Is invalid object valid: ' + !!validate(personSchema, personObjF))
