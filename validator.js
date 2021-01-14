@@ -22,20 +22,38 @@ const personObjF = {
     active: true,
 };
 
-const objectIsArray = obj => Array.isArray(obj)
+const isArray = obj => Array.isArray(obj)
 
 const validate = (schema, obj) => {
     for (const key in schema) {
         if (typeof obj[key] === 'object') {
-            if (schema[key] === 'array' && !objectIsArray(obj[key])) return false
-            if (schema[key] === 'object' && objectIsArray(obj[key])) return false
+            if (schema[key] === 'array' && !isArray(obj[key])) return false;
+            if (schema[key] === 'object' && isArray(obj[key])) return false;
         } else {
-            if (typeof obj[key] != schema[key]) return false
+            if (typeof obj[key] !== schema[key]) return false;
         }
     }
 
-    return true
-}
+    return true;
+};
 
-console.log('Is valid object valid: ' + !!validate(personSchema, personObj))
-console.log('Is invalid object valid: ' + !!validate(personSchema, personObjF))
+const validate2 = (schema, obj) => {
+    for (const key in schema) {
+        const value = obj[key];
+        const type = schema[key];
+
+        if (type === "array") {
+            if (!isArray(value)) return false;
+        } else if (typeof value !== type) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+console.log('Is valid object valid: ' + validate(personSchema, personObj));
+console.log('Is invalid object valid: ' + validate(personSchema, personObjF));
+
+console.log("Is valid object valid2: " + validate2(personSchema, personObj));
+console.log("Is invalid object valid2: " + validate2(personSchema, personObjF));
